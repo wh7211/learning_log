@@ -5,9 +5,12 @@
   <p>Topic: {{ topic }}</p>
 
   <p>Entries:</p>
-  <ul>
+  <p>
+    <a href="{% url 'learning_logs:new_entry' topic.id %}">add new entry</a>
+  </p>
+  <ul>
   {% for entry in entries %}
-    <li>
+    <li>
       <p>{{ entry.date_added|date:'M d, Y H:i' }}</p>
       <p>{{ entry.text|linebreaks }}</p>
     </li>
