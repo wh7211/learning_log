@@ -18,8 +18,11 @@ from django.urls import path, include
 from django.conf.urls import include, url
 
 urlpatterns = [
-    # url(r'^admin/', admin.site.urls),
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
+
+    url(r'^users/', include('users.urls')),
+
     # path('', include('learning_logs.urls')),
     url(r'', include('learning_logs.urls')),
 ]
