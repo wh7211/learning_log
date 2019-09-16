@@ -1,13 +1,11 @@
 from django.shortcuts import render
-
-# Create your views here.
-
-from django.shortcuts import render
 from django.http import HttpResponseRedirect
 # from django.core.urlresolvers import reverse # django2.0已废弃
 from django.urls import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm
+
+# Create your views here.
 
 def logout_view(request):
     """注销用户"""
