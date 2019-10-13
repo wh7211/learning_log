@@ -1,17 +1,38 @@
 {% extends "learning_logs/base.html" %}
+{% load bootstrap3 %}
+
+{% block header %}
+  <h2>Log in to your account.</h2>
+{% endblock header %}
 
 {% block content %}
 
+{% comment "老代码" %}
   {% if form.errors %}
   <p>Your username and password didn't match. Please try again.</p>
   {% endif %}
+{% endcomment %}
 
-  <form method="post" action="{% url 'users:login' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
+  <form method="post" action="{% url 'users:login' %}" class="form">
+    {% csrf_token %}
+    {% comment "老代码" %}
+    {{ form.as_p }}
+    {% endcomment %}
+    {% bootstrap_form form %}
 
-  <button name="submit">log in</button>
-  <input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />
+    {% buttons %}
+      <button name="submit" class="btn btn-primary">log in</button>
+    {% endbuttons %}
+
+    <input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />
   </form>
 
 {% endblock content %}
+
+{% comment "知识点" %}
+1. 我们从这个模板中删除了{% if form.errors %}代码块，因为django-bootstrap3会自动管理表单错误
+2. 我们添加了属性class="form"
+3. 使用模板标签{% bootstrap_form %}来显示表单，将Bootstrap样式规则应用于各个表单元素，这个标签
+替换了我们在第19章使用的标签{{ form.as_p }}
+4. bootstrap3起始模板标签{% buttons %}，它将Bootstrap样式应用于按钮
+{% endcomment %}

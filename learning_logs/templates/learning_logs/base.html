@@ -1,3 +1,104 @@
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Learning Log</title>
+
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+  </head>
+
+  <body>
+
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed"
+                  data-toggle="collapse" data-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">切换导航</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'learning_logs:index' %}">
+                Learning Log</a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'learning_logs:topics' %}">Topics</a></li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+              <li><a>Hello, {{ user.username }}.</a></li>
+              <li><a href="{% url 'users:logout' %}">log out</a></li>
+            {% else %}
+              <li><a href="{% url 'users:register' %}">register</a></li>
+              <li><a href="{% url 'users:login' %}">log in</a></li>
+            {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="page-header">
+        {% block header %}{% endblock header %}
+      </div>
+
+      <div>
+        {% block content %}{% endblock content %}
+      </div>
+    </div> <!-- /container -->
+  </body>
+</html>
+
+
+{% comment "知识点" %}
+1. 在Django身份验证系统中，每个模板都可使用变量user
+2. HTML文件分为两个主要部分：头部（head）和主体（body）
+3. HTML文件的头部不包含任何内容：它只是将正确显示页面所需的信息告诉浏览器
+4. <title></title>定义了标题栏
+5. 创建一个默认的导航栏的步骤如下：
+  - 向 <nav> 标签添加 class .navbar、.navbar-default。当添加 .navbar-static-top 后，
+  与不添加的唯一区别是：.navbar-static-top 去掉了由 .navbar-default 设置的左、右和顶部的
+  边框，让它看起来更适合放在页面的头部。添加 role="navigation"，有助于增加可访问性。
+  - 向 <div> 元素添加一个标题 class .navbar-header，内部包含了带有 class navbar-brand 的
+   <a> 元素。这会让文本看起来更大一号。
+  - 为了向导航栏添加链接，只需要简单地添加带有 class .nav、.navbar-nav 的无序列表即可。
+  - 其他需要注意的：
+    （1）container与container-fluid的区别是：container-fluid的宽度是100%所以导航
+    栏会靠左，container是动态宽度所以会稍微向右靠；
+    （2）<span class="sr-only">切换导航</span>：为残障人士设计的属性，可以读出声音
+6. 创建一个响应式导航栏：
+   - 为了给导航栏添加响应式特性，您要折叠的内容必须包裹在带有 class .collapse、.navbar-collapse 的
+   <div> 中。折叠起来的导航栏实际上是一个带有 class .navbar-toggle 及两个 data- 元素的按钮。第一
+   个是 data-toggle，用于告诉 JavaScript 需要对按钮做什么，第二个是 data-target，指示要切换到哪一
+   个元素。三个带有 class .icon-bar 的 <span> 创建所谓的汉堡按钮。这些会切换为 .nav-collapse <div>
+   中的元素。
+   - <div id="navbar" class="navbar-collapse collapse">中的collapse，就是默认按钮是折叠的，不展开，
+   上面，data-target="#navbar"和aria-controls="navbar"中的值navbar，就是这里的id值navbar
+   - aria-expanded表示展开状态。默认为undefined, 表示当前展开状态未知。其它可选值：true表示元素是展开
+   的；false表示元素不是展开的。实测：不好使
+   - 如果带有aria-expanded属性的元素控制着另一个不是由该元素“拥有”的分组容器的扩展，那么作者应该使用该
+   aria-controls属性来引用该容器。
+
+{% endcomment %}
+
+
+{% comment "不使用bootstrap的老代码" %}
 <p>
   <a href="{% url 'learning_logs:index' %}">Learning Log</a> -
   <a href="{% url 'learning_logs:topics' %}">Topics</a> -
@@ -11,8 +112,5 @@
 </p>
 
 {% block content %}{% endblock content %}
-
-
-{% comment "知识点" %}
-在Django身份验证系统中，每个模板都可使用变量user
 {% endcomment %}
+
