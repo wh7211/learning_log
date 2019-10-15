@@ -146,8 +146,10 @@ if os.getcwd() == '/app':
     # 让request.is_secure()承认X-Forwarded-Proto头
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-    # 支持所有的主机头(host header)
-    ALLOWED_HOSTS = ['*']
+    # 只允许Heroku托管这个项目
+    ALLOWED_HOSTS = ['qq111111.herokuapp.com']
+
+    DEBUG = False
 
     # 静态资产配置
     # 下面的代码是书上提供的，暂时不用，先用官网提供的方法
@@ -171,5 +173,5 @@ if os.getcwd() == '/app':
     )
 
 
-    
+
 
