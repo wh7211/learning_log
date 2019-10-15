@@ -150,9 +150,22 @@ if os.getcwd() == '/app':
     ALLOWED_HOSTS = ['*']
 
     # 静态资产配置
-# 下面的代码是书上提供的，禁用，部署git push heroku master时有报错
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    STATIC_ROOT = 'staticfiles'
+    # 下面的代码是书上提供的，暂时不用，先用官网提供的方法
+    # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    # STATIC_ROOT = 'staticfiles'
+    # STATICFILES_DIRS = (
+    # os.path.join(BASE_DIR, 'static'),
+    # )
+
+    # 下面是官网提供的方法，参考：https://devcenter.heroku.com/articles/django-assets
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    # Static files (CSS, JavaScript, Images)
+    # https://docs.djangoproject.com/en/1.9/howto/static-files/
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_URL = '/static/'
+
+    # Extra places for collectstatic to find static files.
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static'),
     )
