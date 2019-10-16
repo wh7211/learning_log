@@ -149,7 +149,7 @@ if os.getcwd() == '/app':
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
     # 只允许Heroku托管这个项目
-    ALLOWED_HOSTS = ['qq111111.herokuapp.com']
+    ALLOWED_HOSTS = ['fathomless-depths-52347.herokuapp.com']
 
     DEBUG = False
 
