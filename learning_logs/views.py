@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 # from django.core.urlresolvers import reverse # django2.0已废弃
 from django.urls import reverse
