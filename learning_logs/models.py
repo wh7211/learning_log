@@ -9,9 +9,7 @@ class Topic(models.Model):
     text = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.PROTECT)
-    ppp = models.BooleanField(default=True)
-    myt = models.TextField(default='hello2')
-    ma = models.EmailField(default='b@163.com')
+    public = models.BooleanField(default=False)
 
 
     def __str__(self):

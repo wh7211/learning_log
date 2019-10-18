@@ -8,10 +8,11 @@
 {% block content %}
 
   <ul>
+    <h5>主题列表 - 发帖人</h5>
     {% for topic in topics %}
       <li>
         <h3>
-          <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
+          <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>   {{ topic.owner }}
         </h3>
       </li>
     {% empty %}

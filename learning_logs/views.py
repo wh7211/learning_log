@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
+from django.db.models import Q
 
 
 # Create your views here.
@@ -22,7 +23,8 @@ def index(request):
 @login_required
 def topics(request):
     """显示所有的主题"""
-    topics = Topic.objects.filter(owner=request.user).order_by('date_added')
+    """显示自己创建的，或者public属性是True（对所有人公开）的主题"""
+    topics = Topic.objects.filter(Q(owner=request.user) | Q(public=True)).order_by('date_added')
     context = {'topics': topics}
     return render(request, 'learning_logs/topics.html', context)
 
@@ -31,7 +33,10 @@ def topic(request, topic_id):
     """显示单个主题及其所有的条目"""
     # topic = Topic.objects.get(id=topic_id)
     topic = get_object_or_404(Topic, id=topic_id)
-    check_topic_owner(topic, request)
+
+    """不检查当前登录用户是否为主题所有者，让所有人都能看到设置了public属性的主题内容"""
+    # check_topic_owner(topic, request)
+    
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_logs/topic.html', context)
