@@ -14,6 +14,12 @@ from django.db.models import Q
 def check_topic_owner(topic, request):
     """确认请求的主题属于当前用户"""
     if topic.owner != request.user:
+        if topic.public == False:
+            raise  Http404
+
+def check_entry_owner(topic, request):
+    """确认请求的条目属于当前用户"""
+    if topic.owner != request.user:
         raise Http404
 
 def index(request):
@@ -34,8 +40,8 @@ def topic(request, topic_id):
     # topic = Topic.objects.get(id=topic_id)
     topic = get_object_or_404(Topic, id=topic_id)
 
-    """不检查当前登录用户是否为主题所有者，让所有人都能看到设置了public属性的主题内容"""
-    # check_topic_owner(topic, request)
+    """检查当前登录用户是主题所有者，或主题设置了public属性"""
+    check_topic_owner(topic, request)
     
     entries = topic.entry_set.order_by('-date_added')
     context = {'topic': topic, 'entries': entries}
@@ -64,7 +70,7 @@ def new_entry(request, topic_id):
     """在特定的主题中添加新条目"""
     # topic = Topic.objects.get(id=topic_id)
     topic = get_object_or_404(Topic, id=topic_id)
-    check_topic_owner(topic, request)
+    check_entry_owner(topic, request)
 
     if request.method != 'POST':
         # 未提交数据,创建一个空表单
@@ -88,7 +94,7 @@ def edit_entry(request, entry_id):
     # entry = Entry.objects.get(id=entry_id)
     entry = get_object_or_404(Entry, id=entry_id)
     topic = entry.topic
-    check_topic_owner(topic, request)
+    check_entry_owner(topic, request)
 
     if request.method != 'POST':
         # 初次请求，使用当前条目填充表单
