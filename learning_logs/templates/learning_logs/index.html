@@ -3,12 +3,10 @@
 {% block header %}
   <div class='jumbotron'>
     <h1>Track your learning.</h1>
-    <p>这是一个超大屏幕（Jumbotron）的实例，恭喜自己完成了django的学习
-       和heroku的部署。
-    </p>
-    <p><a class="btn btn-primary btn-lg" role="button"
-      href="{% url 'users:register' %}">
-      注册</a>
+    <p>恭喜自己完成了django的学习和heroku的部署。</p>
+    <p>
+      <a class="btn btn-primary btn-lg" role="button"
+        href="{% url 'users:register' %}">注册</a>
     </p>
   </div>
 {% endblock header %}
